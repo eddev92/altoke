@@ -1,0 +1,6 @@
+.galery-content .body img {
+  max-height: 350px;
+}
+.galery-content .body {
+  height: auto;
+}

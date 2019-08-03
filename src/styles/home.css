@@ -1,0 +1,70 @@
+.need-job {
+  margin: calc(50vh - 175px) auto;
+  position: absolute;
+  width: 100%;
+}
+
+.search-job, .have-job {
+  border: 1px solid white;
+  height: 150px;
+  background-color: #e5e5e5;
+  opacity: .8;
+  margin: auto;
+  cursor: pointer;
+  transition: 0.4s ease-in-out all;
+}
+.need-job h3 {
+  font-size: 2.5em;
+  font-weight: 700;
+  position: absolute;
+    margin: auto;    
+    z-index: 99;    
+  width: 100%;  
+  padding-top: 10%;
+  height: 100%;
+  margin-left: -16px;
+}
+.need-job h3:hover {
+  color: white;
+}
+.have-job {
+  margin-left: 0;
+}
+.have-job:hover {
+  background-color: red;
+  opacity: .8;
+  transition: 0.4s ease-in-out all;
+}
+.search-job {
+  margin-right: 0;
+}
+.search-job:hover {
+  background-color: red;
+  opacity: .8;
+  transition: 0.4s ease-in-out all;
+}
+
+input.input-search-job {
+  opacity: 0;
+  transition: 0.3s ease-in-out all;
+}
+input.input-search-job.active {
+  opacity: 1;
+  margin: 12% 0px;
+  height: 50px;
+  border: 1px;
+  transition: 0.3s ease-in-out all;
+  width: 90%;
+}
+.tips {
+  margin: auto;
+  /* margin: calc(50vh - 175px) auto; */
+  position: absolute;
+  bottom: 20%;
+  right: 50%;
+}
+
+button.search-job-wished {
+  margin: auto 5px;
+  height: 52px;
+}
