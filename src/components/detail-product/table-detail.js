@@ -18,7 +18,7 @@ const TableDetail = () => {
           <td>NEGRO</td>
         </tr>
         <tr>
-          <th scope="row">MATERIALES</th>
+          <th scope="row">MATERIAL</th>
           <td colSpan={6}>Larrdasds, dasdasd, dasdsa</td>
         </tr>
         <tr>
@@ -31,7 +31,7 @@ const TableDetail = () => {
         </tr>
         <tr>
           <th scope="row">VISITANOS</th>
-          <td colSpan={6}>www.dasdsdas.com</td>
+          <td colSpan={6} className="website-client">www.dasdsdas.com</td>
         </tr>
       </tbody>
     </table>

@@ -4,3 +4,6 @@
 .main-details-product button.buy {
   margin: auto;
 }
+td.website-client {
+  cursor: pointer;
+}

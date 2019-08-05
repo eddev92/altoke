@@ -3,12 +3,12 @@ import '../../styles/details.css';
 import TableDetail from './table-detail';
 import GaleryPicturesProducts from './galery-pictures-products';
 
-const Details = () => {
+const Details = ({ selected, pictures = [], handleMiniPicture = () => {} }) => {
   return (
     <div className="container main-details-product">
       <div className="row">
         <div className="col-xs-12 col-md-6 pictures-product">
-          <GaleryPicturesProducts />
+          <GaleryPicturesProducts handleMiniPicture={handleMiniPicture} selected={selected} pictures={pictures} />
         </div>
         <div className="col-xs-12 col-md-6 info-product">
           <TableDetail />

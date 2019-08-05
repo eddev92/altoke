@@ -16,7 +16,7 @@ const ModalComponent = ({ title = '', children = null, idTargetModal = '' }) => 
         {children && children}
       </div>
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+        <button type="button" className="btn btn-secondary mAuto" data-dismiss="modal">CERRAR</button>
         {/* <button type="button" className="btn btn-primary">PUBLICAR</button> */}
       </div>
     </div>

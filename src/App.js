@@ -24,7 +24,9 @@ class App extends Component {
 			seeAllGaleries: false,
 			showInitModal: false,
 			idTargetModal: 'advertiseModal',
-			children: null
+			children: null,
+			pictureSelected: 0,
+			pictures: [1,2,32]
     }
   }
 
@@ -42,9 +44,17 @@ class App extends Component {
 		}
 		return this.setState({ activeSearchJob: true });    
 	}
+
+	handleMiniPicture = (pictureSelected) => {
+		console.log(pictureSelected)
+		if (pictureSelected >= 0) {
+			return this.setState({ pictureSelected })
+		}
+	}
+
 	validationTypeModal = (option) => {
-		const { optionSelected } = this.state;
-		const aux =  <DetailProduct />
+		const { optionSelected, pictureSelected, pictures } = this.state;
+		const aux =  <DetailProduct handleMiniPicture={this.handleMiniPicture} selected={pictureSelected} pictures={pictures} />
 		const aux2 = <AdvertiseModalContent />
 
 		switch (option) {
@@ -71,7 +81,7 @@ class App extends Component {
 		)		
 	}
   render() {
-    const { activeSearchJob, showListGaleries, jobWished, seeAllGaleries, idTargetModal, optionSelected, modalProps } = this.state;
+    const { pictures, pictureSelected, children, activeSearchJob, showListGaleries, jobWished, seeAllGaleries, idTargetModal, optionSelected, modalProps } = this.state;
     const auxModalProps = {
       dataTarget: `#${idTargetModal}`
 		}
@@ -96,7 +106,13 @@ class App extends Component {
 					{seeAllGaleries && <TableGaleriesComponent handleOption={this.handleOption} modalProps={auxModalProps} />}
 				</div>
 			</div>	
-			{optionSelected && this.renderModal(optionSelected)}
+			{/* {optionSelected && this.renderModal(optionSelected)} */}
+			{optionSelected &&  (
+			<ModalComponent title="ANUNCIATE AQUI" idTargetModal={idTargetModal} >
+				{optionSelected === 1 && <DetailProduct handleMiniPicture={this.handleMiniPicture} selected={pictureSelected} pictures={pictures} />}
+				{optionSelected === 2 && <AdvertiseModalContent />}
+		</ModalComponent>
+			)}
 			{/* {this.renderModal()} */}
   </div>
   );  
