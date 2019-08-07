@@ -1,0 +1,10 @@
+.buttons-sumary {
+  margin: 5%;
+}
+.table-sumary {
+  max-height: 250px;
+  overflow-y: auto;
+}
+.amount-sumary {
+  padding: 10px 4%;
+}

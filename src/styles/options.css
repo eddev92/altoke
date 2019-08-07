@@ -1,0 +1,17 @@
+.options-product h3 {
+  font-size: 2.5em;
+  font-weight: 700;
+  position: absolute;
+  margin: auto;    
+  z-index: 99;    
+  width: 100%;  
+  padding-top: 13%;
+  height: 100%;
+  margin-left: -16px;
+}
+.options-product h3:hover {
+  color: white;
+}
+.bbbColor {
+  background-color: #bbb;
+}

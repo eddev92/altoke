@@ -26,25 +26,48 @@ class App extends Component {
 			idTargetModal: 'advertiseModal',
 			children: null,
 			pictureSelected: 0,
-			pictures: [1,2,32]
+			pictures: [1,2,32],
+			buySteps: {
+				step1: 1,
+				step2: 2,
+				step3: 3,
+				step4: 4,
+				step5: 5
+			},
+			optionForBuy: 0,
+			quoteOption: 0,
+			showOptions: false,
+			productSelected: {
+				price: 50.00
+			},
+			orders: [],
+			orderPreview:	{
+				orderId: '',
+				quantity: null,
+				size: '',
+				color: ''
+			},
+			disabledButtonAddProduct: true
     }
   }
 
   componentDidMount() {
   }
 
-  handleOption = (option) => {
+  handleOptionHome = (option) => {
 		console.log(option)
 		const { jobWished, optionSelected } = this.state;
-		if (option > 0) {
-			return this.validationTypeModal(option);
+		if (option === 1) {
+			return this.setState({ activeSearchJob: true })
 		}
 		if (jobWished && jobWished.length) {
-			return this.setState({ showListGaleries: true });
+			return this.setState({ showListGaleries: true,  });
 		}
-		return this.setState({ activeSearchJob: true });    
+		return this.setState({ optionSelected: 2 });    
 	}
-
+	selectProduct = (productSelected) => {
+		return this.setState({ optionSelected: 1, productSelected }); 
+	}
 	handleMiniPicture = (pictureSelected) => {
 		console.log(pictureSelected)
 		if (pictureSelected >= 0) {
@@ -52,18 +75,24 @@ class App extends Component {
 		}
 	}
 
-	validationTypeModal = (option) => {
-		const { optionSelected, pictureSelected, pictures } = this.state;
-		const aux =  <DetailProduct handleMiniPicture={this.handleMiniPicture} selected={pictureSelected} pictures={pictures} />
-		const aux2 = <AdvertiseModalContent />
-
-		switch (option) {
-			case 1: return this.setState({ idTargetModal: 'selectItem', children: aux, optionSelected: option }, () => { this.renderModal(optionSelected)});
-			case 2: return this.setState({ idTargetModal: 'advertiseModal', children: aux2, optionSelected: option }, () => { this.renderModal(optionSelected)});
-			case 3: return this.setState({ idTargetModal: 'advertiseModal', children: aux2, optionSelected: option }, () => { this.renderModal(optionSelected)});
-			default: return null;
-		}
+	showOptions = () => {
+		return this.setState({ showOptions: true });
 	}
+	closeModal = () => {
+		return this.setState({ showOptions: false, optionForBuy: 0 })
+	}
+	// validationTypeModal = (option) => {
+	// 	const { optionSelected, pictureSelected, pictures } = this.state;
+	// 	const aux =  <DetailProduct handleMiniPicture={this.handleMiniPicture} selected={pictureSelected} pictures={pictures} />
+	// 	const aux2 = <AdvertiseModalContent />
+
+	// 	switch (option) {
+	// 		case 1: return this.setState({ idTargetModal: 'selectItem', children: aux, optionSelected: option }, () => { this.renderModal(optionSelected)});
+	// 		case 2: return this.setState({ idTargetModal: 'advertiseModal', children: aux2, optionSelected: option }, () => { this.renderModal(optionSelected)});
+	// 		case 3: return this.setState({ idTargetModal: 'advertiseModal', children: aux2, optionSelected: option }, () => { this.renderModal(optionSelected)});
+	// 		default: return null;
+	// 	}
+	// }
   handleJob = (e) => {    
    return this.setState({ jobWished: e.target.value });
 	}
@@ -80,19 +109,64 @@ class App extends Component {
 		</ModalComponent>
 		)		
 	}
+	chooseItemNow = () => {
+		this.setState({ showOptions: true });
+	}
+	conFirmStep = (option) => { this.setState({ optionForBuy: option,showOptions: false }) }
+
+	confirmOrderPreview = (order) => {  }
+
+	addProductForOrder = () => {
+		const { orders, orderPreview } = this.state;
+		console.log(orderPreview)
+		if (orderPreview.size && orderPreview.color) {
+			const ordersAux = [ ...orders ];
+			orderPreview.quantity = Number(orderPreview.quantity);
+			ordersAux.push(orderPreview);
+			return this.setState({ addProduct: true, orders: ordersAux, disabledButtonConfirmOrder: false });
+		}
+		return alert("Todos los campos son requeridos!");
+	}
+
+	confirmOrderWithDetails = () => {
+		this.setState({ optionForBuy: 2 })
+	}
+
+	handleProductInfoPreview = (info) => {
+		const { orderPreview } = this.state;
+		const orderAux = { ...orderPreview };
+		orderAux[info.target.id] = info.target.value;
+		this.setState({ orderPreview: orderAux });
+	}
+
+	editOrderPreview = () => {
+		this.setState({ optionForBuy: 1 })
+	}
+
   render() {
-    const { pictures, pictureSelected, children, activeSearchJob, showListGaleries, jobWished, seeAllGaleries, idTargetModal, optionSelected, modalProps } = this.state;
+		const { optionForBuy,
+						showOptions,
+						pictures,
+						pictureSelected,
+						activeSearchJob,
+						showListGaleries,
+						jobWished,
+						seeAllGaleries,
+						idTargetModal,
+						optionSelected,
+						productSelected,
+						disabledButtonConfirmOrder,
+						orderPreview,
+						orders
+		} = this.state;
     const auxModalProps = {
       dataTarget: `#${idTargetModal}`
 		}
-		const initModalProps = {
-      dataTarget: '#initModal'
-    }
-
+		console.log(orders)
     return (
       <div className="App">
         <NavComponent />
-        <HomeComponent handleOption={this.handleOption} active={activeSearchJob} modalProps={auxModalProps} handleJob={this.handleJob} showListGaleries={showListGaleries} jobWished={jobWished}/>
+        <HomeComponent handleOption={this.handleOptionHome} active={activeSearchJob} modalProps={auxModalProps} handleJob={this.handleJob} showListGaleries={showListGaleries} jobWished={jobWished}/>
         <ButtonComponent />
 				{/* <button type="button" class="btn btn-primary" data-toggle="modal" data-target={initModalProps.dataTarget}>
 				Launch demo modal
@@ -103,13 +177,31 @@ class App extends Component {
 				</div> */}
 				<div className={`col-12 row text-center see-galeries ${!seeAllGaleries && 'desactive'} ${seeAllGaleries && 'active'}`}>
 					{!seeAllGaleries && <h3 onClick={this.showAllGaleries}>CONOCE TODOS LOS PRODUCTOS</h3>}
-					{seeAllGaleries && <TableGaleriesComponent handleOption={this.handleOption} modalProps={auxModalProps} />}
+					{seeAllGaleries && <TableGaleriesComponent handleOption={this.selectProduct} modalProps={auxModalProps} />}
 				</div>
 			</div>	
 			{/* {optionSelected && this.renderModal(optionSelected)} */}
 			{optionSelected &&  (
-			<ModalComponent title="ANUNCIATE AQUI" idTargetModal={idTargetModal} >
-				{optionSelected === 1 && <DetailProduct handleMiniPicture={this.handleMiniPicture} selected={pictureSelected} pictures={pictures} />}
+			<ModalComponent title="ANUNCIATE AQUI" idTargetModal={idTargetModal} closeModal={this.closeModal} >
+				{optionSelected === 1 && <DetailProduct
+																	chooseItem={this.chooseItemNow}
+																	showOptions={showOptions}
+																	handleMiniPicture={this.handleMiniPicture}
+																	selected={pictureSelected}
+																	pictures={pictures}
+																	conFirmStep={this.conFirmStep}
+																	quoteProduct={this.quoteProduct}
+																	optionForBuy={optionForBuy}
+																	productSelected={productSelected}
+																	addProductForOrder={this.addProductForOrder}
+																	disabledButtonConfirmOrder={disabledButtonConfirmOrder}
+																	confirmOrderWithDetails={this.confirmOrderWithDetails}
+																	handleProductInfoPreview={this.handleProductInfoPreview}
+																	orderPreview={orderPreview}
+																	orders={orders}
+																	editOrderPreview={this.editOrderPreview}
+																/>
+															}
 				{optionSelected === 2 && <AdvertiseModalContent />}
 		</ModalComponent>
 			)}

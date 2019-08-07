@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/galery-products.css';
 
-const GaleryPicturesProducts = ({ selected, pictures = [], handleMiniPicture = () => {} }) => {
+const GaleryPicturesProducts = ({ selected, chooseItem = () => {}, pictures = [], handleMiniPicture = () => {} }) => {
   console.log(selected)
   return (
     <div className="galery-content">
@@ -12,9 +12,6 @@ const GaleryPicturesProducts = ({ selected, pictures = [], handleMiniPicture = (
             pictures.length && pictures.map((pic, index) => <img className={selected === index ? 'selected' : ''} onClick={handleMiniPicture.bind(this, index)} src="images/jeans3.jpg" /> )
           }
         </div>
-      </div>
-      <div className="footer">
-
       </div>
     </div>
   )

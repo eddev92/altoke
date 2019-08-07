@@ -11,7 +11,7 @@ const HomeComponent = ({ handleOption = () => {}, active = false, handleJob = ()
             <div className="row need-job">
                 <div className="col-md-5 search-job text-center">
                   {
-                    !active && <h3 className="text-black" onClick={handleOption}>BUSCAR GALERIA</h3>}
+                    !active && <h3 className="text-black" onClick={handleOption.bind(this, 1)}>BUSCAR GALERIA</h3>}
                     <input className={active ? 'input-search-job col-md-7 active' : 'input-search-job'} onChange={handleJob} value={jobWished} placeholder="Ejemplo: Textiles ABC"/>
                     {active && <button onClick={handleOption} className="btn btn-dark waves-effect waves-light search-job-wished">BUSCAR</button>
                   }

@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Confirm = () => {
+const ConfirmProduct = () => {
   return (
-    <div>Confirm Product</div>
+    <div>ConfirmProduct</div>
   )
 }
 
-export default Confirm;
+export default ConfirmProduct;
