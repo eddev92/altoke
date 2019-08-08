@@ -34,7 +34,7 @@ const DetailBuy = ({ orders = [], orderPreview = {}, handleProductInfoPreview = 
             </div>
           </form>
           <div className="row add-product">
-            <button className="btn btn-success btn-rounded waves-effect waves-light buy" onClick={addProductForOrder}>AGREGAR PRODUCTO</button>
+            <button className="btn btn-success btn-rounded waves-effect waves-light buy mTop5" onClick={addProductForOrder}>AGREGAR PRODUCTO</button>
           </div>
           {
             (!addProduct && orders && orders.length) ? 

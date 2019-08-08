@@ -47,16 +47,43 @@ class App extends Component {
 				size: '',
 				color: ''
 			},
-			disabledButtonAddProduct: true
+			disabledButtonAddProduct: true,
+			allProducts: [
+				{productCode: 'JD4AD', price: 50.00},
+				{productCode: 'JD4AD2', price: 50.00},
+				{productCode: 'JD4AD3', price: 50.00},
+				{productCode: 'JD4AD4', price: 50.00},
+				{productCode: 'JD4AD5', price: 50.00}
+			],
+			iAgree: false,
+			clientOrder: {
+				fullName: '',
+				clientPhone: '',
+				clientMail: '',
+				shippingAddress: '',
+				shippingPhone: '',
+				shippingReference: ''
+			}
     }
   }
 
   componentDidMount() {
-  }
+	}
+	
+	handleClientInfo = (info) => {
+		const { client } = this.state;
+		const clientAux = { ...client };
+		const value = info.target.value;
+		const id = info.target.id;
+		console.log(value)
+		console.log(id)
+		clientAux[id] = value;
+		this.setState({ client: clientAux });
+	}
 
   handleOptionHome = (option) => {
 		console.log(option)
-		const { jobWished, optionSelected } = this.state;
+		const { jobWished } = this.state;
 		if (option === 1) {
 			return this.setState({ activeSearchJob: true })
 		}
@@ -81,18 +108,6 @@ class App extends Component {
 	closeModal = () => {
 		return this.setState({ showOptions: false, optionForBuy: 0 })
 	}
-	// validationTypeModal = (option) => {
-	// 	const { optionSelected, pictureSelected, pictures } = this.state;
-	// 	const aux =  <DetailProduct handleMiniPicture={this.handleMiniPicture} selected={pictureSelected} pictures={pictures} />
-	// 	const aux2 = <AdvertiseModalContent />
-
-	// 	switch (option) {
-	// 		case 1: return this.setState({ idTargetModal: 'selectItem', children: aux, optionSelected: option }, () => { this.renderModal(optionSelected)});
-	// 		case 2: return this.setState({ idTargetModal: 'advertiseModal', children: aux2, optionSelected: option }, () => { this.renderModal(optionSelected)});
-	// 		case 3: return this.setState({ idTargetModal: 'advertiseModal', children: aux2, optionSelected: option }, () => { this.renderModal(optionSelected)});
-	// 		default: return null;
-	// 	}
-	// }
   handleJob = (e) => {    
    return this.setState({ jobWished: e.target.value });
 	}
@@ -112,9 +127,9 @@ class App extends Component {
 	chooseItemNow = () => {
 		this.setState({ showOptions: true });
 	}
-	conFirmStep = (option) => { this.setState({ optionForBuy: option,showOptions: false }) }
+	conFirmStep = (option) => { this.setState({ optionForBuy: option, showOptions: false }) }
 
-	confirmOrderPreview = (order) => {  }
+	confirmOrderPreview = () => { this.setState({ iAgree: true }); }
 
 	addProductForOrder = () => {
 		const { orders, orderPreview } = this.state;
@@ -139,9 +154,9 @@ class App extends Component {
 		this.setState({ orderPreview: orderAux });
 	}
 
-	editOrderPreview = () => {
-		this.setState({ optionForBuy: 1 })
-	}
+	editOrderPreview = () => { this.setState({ optionForBuy: 1 })	}
+
+	confirmOrderPreviewAndAgree = () => { this.setState({ iAgree: false, optionForBuy: 3 });	}
 
   render() {
 		const { optionForBuy,
@@ -157,11 +172,15 @@ class App extends Component {
 						productSelected,
 						disabledButtonConfirmOrder,
 						orderPreview,
-						orders
+						orders,
+						allProducts,
+						iAgree,
+						client
 		} = this.state;
     const auxModalProps = {
       dataTarget: `#${idTargetModal}`
 		}
+		console.log(client)
 		console.log(orders)
     return (
       <div className="App">
@@ -177,7 +196,7 @@ class App extends Component {
 				</div> */}
 				<div className={`col-12 row text-center see-galeries ${!seeAllGaleries && 'desactive'} ${seeAllGaleries && 'active'}`}>
 					{!seeAllGaleries && <h3 onClick={this.showAllGaleries}>CONOCE TODOS LOS PRODUCTOS</h3>}
-					{seeAllGaleries && <TableGaleriesComponent handleOption={this.selectProduct} modalProps={auxModalProps} />}
+					{seeAllGaleries && <TableGaleriesComponent galeries={allProducts} handleOption={this.selectProduct} modalProps={auxModalProps} />}
 				</div>
 			</div>	
 			{/* {optionSelected && this.renderModal(optionSelected)} */}
@@ -200,6 +219,11 @@ class App extends Component {
 																	orderPreview={orderPreview}
 																	orders={orders}
 																	editOrderPreview={this.editOrderPreview}
+																	confirmOrderPreview={this.confirmOrderPreview}
+																	iAgree={iAgree}
+																	confirmOrderPreviewAndAgree={this.confirmOrderPreviewAndAgree}
+																	handleClientInfo={this.handleClientInfo}
+																	client={client}
 																/>
 															}
 				{optionSelected === 2 && <AdvertiseModalContent />}
